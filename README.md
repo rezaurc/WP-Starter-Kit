@@ -1,2 +1,2 @@
-wp_starterkit
+wp-starter-kit
 =============
