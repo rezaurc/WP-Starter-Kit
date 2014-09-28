@@ -10,34 +10,34 @@
 
 <article id="post-none" class="post empty">
 
-	<h1 class="post-title"><?php _e( 'Nothing Found', 'wp-starter-kit' ); ?></h1>
+    <h1 class="post-title"><?php _e('Nothing Found', 'wp-starter-kit'); ?></h1>
 
-	<div class="post-content">
+    <div class="post-content">
 
-		<?php if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
+        <?php if (is_home() && current_user_can('publish_posts')) : ?>
 
-			<p>
-				<?php printf( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'wp-starter-kit' ), admin_url( 'post-new.php' ) ); ?>
-			</p>
+            <p>
+                <?php printf(__('Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'wp-starter-kit'), admin_url('post-new.php')); ?>
+            </p>
 
-		<?php elseif ( is_search() ) : ?>
+        <?php elseif (is_search()) : ?>
 
-			<p>
-				<?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'wp-starter-kit' ); ?>
-			</p>
+            <p>
+                <?php _e('Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'wp-starter-kit'); ?>
+            </p>
 
-			<?php get_search_form(); ?>
+            <?php get_search_form(); ?>
 
-		<?php else : ?>
+        <?php else : ?>
 
-			<p>
-				<?php _e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'wp-starter-kit' ); ?>
-			</p>
+            <p>
+                <?php _e('It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'wp-starter-kit'); ?>
+            </p>
 
-			<?php get_search_form(); ?>
+            <?php get_search_form(); ?>
 
-		<?php endif; ?>
+        <?php endif; ?>
 
-	</div>
+    </div>
 
 </article>

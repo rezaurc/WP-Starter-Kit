@@ -6,52 +6,50 @@
  * @subpackage WP Starter Kit
  * @since WP Starter Kit 1.0
  */
+get_header();
+?>
 
-get_header(); ?>
+<section class="page-content primary" role="main"><?php if (have_posts()) : ?>
 
-	<section class="page-content primary" role="main"><?php
+        <div class="search-title">
+            <h1 ><?php printf(__('Search Results for: %s', 'wp-starter-kit'), get_search_query()); ?></h1>
 
-		if ( have_posts() ) : ?>
+            <div class="second-search">
+                <p>
+                    <?php _e('Not what you searched for? Try again with some different keywords.', 'wp-starter-kit'); ?>
+                </p>
 
-			<div class="search-title">
-				<h1 ><?php printf( __( 'Search Results for: %s', 'wp-starter-kit' ), get_search_query() ); ?></h1>
+                <?php get_search_form(); ?>
+            </div>
+        </div><?php
+        while (have_posts()) : the_post();
 
-				<div class="second-search">
-					<p>
-						<?php _e( 'Not what you searched for? Try again with some different keywords.', 'wp-starter-kit' ); ?>
-					</p>
+            get_template_part('loop', get_post_format());
 
-					<?php get_search_form(); ?>
-				</div>
-			</div><?php
+            wp_link_pages(
+                    array(
+                        'before' => '<div class="linked-page-nav"><p>' . sprintf(__('<em>%s</em> is separated in multiple parts:', 'wp-starter-kit'), get_the_title()) . '<br />',
+                        'after' => '</p></div>',
+                        'next_or_number' => 'number',
+                        'separator' => ' ',
+                        'pagelink' => __('&raquo; Part %', 'wp-starter-kit'),
+                    )
+            );
 
-			while ( have_posts() ) : the_post();
+        endwhile;
 
-				get_template_part( 'loop', get_post_format() );
+    else :
 
-				wp_link_pages(
-					array(
-						'before'           => '<div class="linked-page-nav"><p>' . sprintf( __( '<em>%s</em> is separated in multiple parts:', 'wp-starter-kit' ), get_the_title() ) . '<br />',
-						'after'            => '</p></div>',
-						'next_or_number'   => 'number',
-						'separator'        => ' ',
-						'pagelink'         => __( '&raquo; Part %', 'wp-starter-kit' ),
-					)
-				);
+        get_template_part('loop', 'empty');
 
-			endwhile;
+    endif;
+    ?>
 
-		else :
+    <div class="pagination">
 
-			get_template_part( 'loop', 'empty' );
+        <?php get_template_part('template-part', 'pagination'); ?>
 
-		endif; ?>
-
-		<div class="pagination">
-
-			<?php get_template_part( 'template-part', 'pagination' ); ?>
-
-		</div>
-	</section>
+    </div>
+</section>
 
 <?php get_footer(); ?>

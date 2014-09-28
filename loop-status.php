@@ -14,6 +14,6 @@
         <?php the_content(); ?>
     </h1>
 
-    <?php get_template_part( 'template-part', 'byline' ); ?>
+    <?php get_template_part('template-part', 'byline'); ?>
 
 </article>

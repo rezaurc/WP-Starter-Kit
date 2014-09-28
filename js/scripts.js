@@ -1,3 +1,3 @@
-(function($) {
-	// jquery goodness
+(function ($) {
+    // jquery goodness
 })(jQuery);

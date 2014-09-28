@@ -11,9 +11,9 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
     <h1 class="post-title">
-    	<?php the_content(); ?>
+        <?php the_content(); ?>
     </h1>
 
-    <?php get_template_part( 'template-part', 'byline' ); ?>
+    <?php get_template_part('template-part', 'byline'); ?>
 
 </article>

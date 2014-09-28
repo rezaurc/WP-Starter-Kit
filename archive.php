@@ -6,81 +6,78 @@
  * @subpackage WP Starter Kit
  * @since WP Starter Kit 1.0
  */
+get_header();
+?>
 
-get_header(); ?>
+<section class="page-content primary" role="main"><?php if (have_posts()) : ?>
 
-	<section class="page-content primary" role="main"><?php
+        <h1 class="archive-title">
+            <?php
+            if (is_category()):
+                printf(__('Category Archives: %s', 'wp-starter-kit'), single_cat_title('', false));
 
-		if ( have_posts() ) : ?>
+            elseif (is_tag()):
+                printf(__('Tag Archives: %s', 'wp-starter-kit'), single_tag_title('', false));
 
-			<h1 class="archive-title">
-				<?php
-					if ( is_category() ):
-						printf( __( 'Category Archives: %s', 'wp-starter-kit' ), single_cat_title( '', false ) );
+            elseif (is_tax()):
+                $term = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
+                $taxonomy = get_taxonomy(get_query_var('taxonomy'));
+                printf(__('%s Archives: %s', 'wp-starter-kit'), $taxonomy->labels->singular_name, $term->name);
 
-					elseif ( is_tag() ):
-						printf( __( 'Tag Archives: %s', 'wp-starter-kit' ), single_tag_title( '', false ) );
+            elseif (is_day()) :
+                printf(__('Daily Archives: %s', 'wp-starter-kit'), get_the_date());
 
-					elseif ( is_tax() ):
-						$term     = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
-						$taxonomy = get_taxonomy( get_query_var( 'taxonomy' ) );
-						printf( __( '%s Archives: %s', 'wp-starter-kit' ), $taxonomy->labels->singular_name, $term->name );
+            elseif (is_month()) :
+                printf(__('Monthly Archives: %s', 'wp-starter-kit'), get_the_date(_x('F Y', 'monthly archives date format', 'wp-starter-kit')));
 
-					elseif ( is_day() ) :
-						printf( __( 'Daily Archives: %s', 'wp-starter-kit' ), get_the_date() );
+            elseif (is_year()) :
+                printf(__('Yearly Archives: %s', 'wp-starter-kit'), get_the_date(_x('Y', 'yearly archives date format', 'wp-starter-kit')));
 
-					elseif ( is_month() ) :
-						printf( __( 'Monthly Archives: %s', 'wp-starter-kit' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'wp-starter-kit' ) ) );
+            elseif (is_author()) : the_post();
+                printf(__('All posts by %s', 'wp-starter-kit'), get_the_author());
 
-					elseif ( is_year() ) :
-						printf( __( 'Yearly Archives: %s', 'wp-starter-kit' ), get_the_date( _x( 'Y', 'yearly archives date format', 'wp-starter-kit' ) ) );
+            else :
+                _e('Archives', 'wp-starter-kit');
 
-					elseif ( is_author() ) : the_post();
-						printf( __( 'All posts by %s', 'wp-starter-kit' ), get_the_author() );
+            endif;
+            ?>
+        </h1><?php
+        if (is_category() || is_tag() || is_tax()):
+            $term_description = term_description();
+            if (!empty($term_description)) :
+                ?>
 
-					else :
-						_e( 'Archives', 'wp-starter-kit' );
+                <div class="archive-description"><?php echo $term_description; ?>
+                </div><?php
+            endif;
+        endif;
 
-					endif;
-				?>
-			</h1><?php
+        if (is_author() && get_the_author_meta('description')) :
+            ?>
 
-			if ( is_category() || is_tag() || is_tax() ):
-				$term_description = term_description();
-				if ( ! empty( $term_description ) ) : ?>
+            <div class="archive-description">
+                <?php the_author_meta('description'); ?>
+            </div><?php
+        endif;
 
-					<div class="archive-description"><?php
-						echo $term_description; ?>
-					</div><?php
+        while (have_posts()) : the_post();
 
-				endif;
-			endif;
+            get_template_part('loop', get_post_format());
 
-			if ( is_author() && get_the_author_meta( 'description' ) ) : ?>
+        endwhile;
 
-				<div class="archive-description">
-					<?php the_author_meta( 'description' ); ?>
-				</div><?php
+    else :
 
-			endif;
+        get_template_part('loop', 'empty');
 
-			while ( have_posts() ) : the_post();
+    endif;
+    ?>
 
-				get_template_part( 'loop', get_post_format() );
+    <div class="pagination">
 
-			endwhile;
+        <?php get_template_part('template-part', 'pagination'); ?>
 
-		else :
-
-			get_template_part( 'loop', 'empty' );
-
-		endif; ?>
-
-		<div class="pagination">
-
-			<?php get_template_part( 'template-part', 'pagination' ); ?>
-
-		</div>
-	</section>
+    </div>
+</section>
 
 <?php get_footer(); ?>

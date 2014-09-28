@@ -10,53 +10,46 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<h1 class="post-title"><?php
+    <h1 class="post-title"><?php
+        if (is_singular()) :
+            the_title();
+        else :
+            ?>
 
-		if ( is_singular() ) :
-			the_title();
-		else : ?>
+            <a href="<?php echo esc_url(get_permalink()); ?>" rel="bookmark"><?php the_title(); ?>
+            </a><?php endif; ?>
 
-			<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark"><?php
-				the_title(); ?>
-			</a><?php
+    </h1>
 
-		endif; ?>
+    <div class="post-meta"><?php wp_starter_kit_post_meta(); ?>
+    </div>
 
-	</h1>
+    <div class="post-content"><?php if ('' != get_the_post_thumbnail()) : ?>
+            <?php the_post_thumbnail(); ?><?php endif; ?>
 
-	<div class="post-meta"><?php
-		wp_starter_kit_post_meta(); ?>
-	</div>
+        <?php if (is_front_page() || is_category() || is_archive() || is_search()) : ?>
 
-	<div class="post-content"><?php
+            <?php the_excerpt(); ?>
+            <a href="<?php the_permalink(); ?>"><?php _e('Read more &raquo;', 'wp-starter-kit'); ?></a>
 
-		if ( '' != get_the_post_thumbnail() ) : ?>
-			<?php the_post_thumbnail(); ?><?php
-		endif; ?>
+        <?php else : ?>
 
-		<?php if ( is_front_page() || is_category() || is_archive() || is_search() ) : ?>
+            <?php the_content(__('Continue reading &raquo', 'wp-starter-kit')); ?>
 
-			<?php the_excerpt(); ?>
-			<a href="<?php the_permalink(); ?>"><?php _e( 'Read more &raquo;', 'wp-starter-kit' ); ?></a>
+        <?php endif; ?>
 
-		<?php else : ?>
+        <?php
+        wp_link_pages(
+                array(
+                    'before' => '<div class="linked-page-nav"><p>' . __('This article has more parts: ', 'wp-starter-kit'),
+                    'after' => '</p></div>',
+                    'next_or_number' => 'number',
+                    'separator' => ' ',
+                    'pagelink' => __('&lt;%&gt;', 'wp-starter-kit'),
+                )
+        );
+        ?>
 
-			<?php the_content( __( 'Continue reading &raquo', 'wp-starter-kit' ) ); ?>
-
-		<?php endif; ?>
-
-		<?php
-			wp_link_pages(
-				array(
-					'before'           => '<div class="linked-page-nav"><p>'. __( 'This article has more parts: ', 'wp-starter-kit' ),
-					'after'            => '</p></div>',
-					'next_or_number'   => 'number',
-					'separator'        => ' ',
-					'pagelink'         => __( '&lt;%&gt;', 'wp-starter-kit' ),
-				)
-			);
-		?>
-
-	</div>
+    </div>
 
 </article>

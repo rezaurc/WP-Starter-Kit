@@ -6,38 +6,38 @@
  * @subpackage WP Starter Kit
  * @since WP Starter Kit 1.0
  */
+get_header();
+?>
 
-get_header(); ?>
+<section class="page-content primary" role="main">
 
-	<section class="page-content primary" role="main">
+    <?php
+    if (have_posts()) : the_post();
 
-		<?php
-			if ( have_posts() ) : the_post();
+        get_template_part('loop', get_post_format());
+        ?>
 
-				get_template_part( 'loop', get_post_format() ); ?>
+        <aside class="post-aside">
 
-				<aside class="post-aside">
+            <div class="post-links">
+                <?php previous_post_link('%link', __('&laquo; Previous post', 'wp-starter-kit')) ?>
+                <?php next_post_link('%link', __('Next post &raquo;', 'wp-starter-kit')); ?>
+            </div>
 
-					<div class="post-links">
-						<?php previous_post_link( '%link', __( '&laquo; Previous post', 'wp-starter-kit' ) ) ?>
-						<?php next_post_link( '%link', __( 'Next post &raquo;', 'wp-starter-kit' ) ); ?>
-					</div>
+            <?php
+            if (comments_open() || get_comments_number() > 0) :
+                comments_template('', true);
+            endif;
+            ?>
 
-					<?php
-						if ( comments_open() || get_comments_number() > 0 ) :
-							comments_template( '', true );
-						endif;
-					?>
+        </aside><?php
+    else :
 
-				</aside><?php
+        get_template_part('loop', 'empty');
 
-			else :
+    endif;
+    ?>
 
-				get_template_part( 'loop', 'empty' );
-
-			endif;
-		?>
-
-	</section>
+</section>
 
 <?php get_footer(); ?>
